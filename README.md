@@ -1,1 +1,1 @@
-# BingoGame
+# Bingo90 game
