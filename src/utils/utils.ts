@@ -65,7 +65,7 @@ export const generateNumsForColumns = () => {
 
 export const getColumnsWithIntegers = () => {
     const columns = generateNumsForColumns();
-    console.log('columns generateNumsForColumns: ', columns);
+    // console.log('columns generateNumsForColumns: ', columns);
 
     const ticketsColumns = Array(columns.length).fill([]);
     // let ticketsColumns: number[][][] = Array.from({length: columns.length}, () => []);
@@ -97,41 +97,9 @@ export const getColumnsWithIntegers = () => {
         const sortedColumnNumbers = ticketColumnNumbers.map(item => item.length > 1 ? item.sort() : item)
         ticketsColumns[i] = [...sortedColumnNumbers];
         ticketColumnNumbers = [];
-
-
-        /*while (columnNums.length) {
-            //debugger
-            const randomIndex = random(0, columnNums.length - 1);
-            const number = columnNums[randomIndex];
-
-            if (ticketColumnNumbers.length === 3) {
-                if (ticketColumnNumbers.every(num => num === 0)) {
-                    ticketColumnNumbers = [];
-                    columnNums.push(...Array(3).fill(0));
-
-                    if (!columnNums.some(num => num > 0)) {
-                        columnNums = columns[i];
-                        ticketsColumns = [];
-                    }
-                } else {
-                    const sortedTicketColumnNums = [...ticketColumnNumbers];
-
-                    ticketsColumns[i].push(sortedTicketColumnNums);
-                    ticketColumnNumbers = [];
-                }
-            } else {
-                ticketColumnNumbers.push(number);
-                columnNums.splice(randomIndex, 1);
-
-                if (!columnNums.length) {
-                    const sortedTicketColumnNums = [...ticketColumnNumbers];
-
-                    ticketsColumns[i].push(sortedTicketColumnNums);
-                }
-            }
-        }*/
     })
 
+    console.log('columns getColumnsWithIntegers: ', ticketsColumns);
     return ticketsColumns;
 }
 
@@ -164,5 +132,46 @@ export const getColumnsForTicket = () => {
         })
     })
     console.log("ticketsColumns:", ticketsColumns)
+}
 
+export const getColumnsForTickets = () => {
+    const columns = getColumnsWithIntegers();
+    const tickets: number[][] = [];
+
+    // generate 6 tickets with columns without zero
+    for(let i = 0; i < 6; i++) {
+        const ticket = getTicketIntegerNumbers(columns);
+
+        tickets.push(ticket);
+    }
+
+    console.log("tickets getColumnsForTickets:", tickets)
+}
+
+const getTicketIntegerNumbers = (cols) => {
+    const columns = [...cols];
+    const ticket: number[] = [];
+    const ticketFlatLength = ticket.flat().length;
+
+    while (ticketFlatLength < 15 && ticket.length < 9) {
+        columns.forEach((ticketColumn, i ) => {
+            if (ticketFlatLength === 15) {
+                if (ticket.length === 9) {
+                    return ticket;
+                }
+
+                getTicketIntegerNumbers(cols);
+            }
+
+            const randomIndex = random(0, ticketColumn.length - 1);
+            const column = ticketColumn[randomIndex];
+
+            if (ticketFlatLength + column?.length <= 15) {
+                ticket.push(column)
+                ticketColumn.splice(randomIndex, 1);
+            }
+        })
+    }
+
+    return ticket;
 }

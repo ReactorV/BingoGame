@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
 
 import { Strip } from './Strip';
-import { generateTickets, generateNumsForColumns, getSortedColumnsWithZero, getColumnsForTicket } from "../utils";
+import { generateTickets, generateNumsForColumns, getColumnsForTickets } from "../utils";
 import { TicketType } from "../types";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
 
         // const numbersSorted = getSortedColumnsWithZero();
         // console.log("getSortedColumnsWithZero :", numbersSorted)
-        getColumnsForTicket()
+        getColumnsForTickets()
 
         setTickets(newTickets);
     }
